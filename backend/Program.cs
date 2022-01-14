@@ -1,11 +1,26 @@
+using backend.db;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddOptions();
+
+builder.Services.AddDbContext<SKADIDBContext>(
+            dbContextOptions => dbContextOptions
+                .UseMySql(builder.Configuration["database"], new MySqlServerVersion(new Version(8, 0, 27)))
+                .LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+        );
 
 var app = builder.Build();
 
