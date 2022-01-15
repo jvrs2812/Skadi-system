@@ -7,18 +7,14 @@ namespace backend.model
     {
 
         [Required]
-        public string Id { get; set; }
+        public string id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string name { get; set; }
         public DateTime CreatedAt { get; set; }
         [Required]
-        public string Email { get; set; }
+        public string email { get; set; }
         [Required]
-        public string Password { get; set; }
-
-        [StringLength(14)]
-        public string CNPJ { get; set; }
-
+        public string password { get; set; }
         public string Role { get; set; }
         public UserRequest UserModelRequest { get; }
     }
