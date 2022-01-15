@@ -9,6 +9,14 @@ namespace backend.db
             : base(options)
         {
         }
-        public DbSet<User> User { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Enterprise>().OwnsOne(x => x.settings);
+        }
+        public DbSet<User>? User { get; set; }
+
+        public DbSet<Enterprise>? Enterprise { get; set; }
+
+        public DbSet<EnterpriseUser> EnterpriseUsers { get; set; }
     }
 }
