@@ -603,6 +603,15 @@
           "lib/net6.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
         }
       },
+      "SecureIdentity/1.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0/SecureIdentity.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0/SecureIdentity.dll": {}
+        }
+      },
       "Swashbuckle.AspNetCore/6.2.3": {
         "type": "package",
         "dependencies": {
@@ -1698,6 +1707,18 @@
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
+    "SecureIdentity/1.0.2": {
+      "sha512": "N1ewyG8lrgVmN5V9y6W6yGWBCPsNgW7WXxz564RbvTQ+igluN7Eu4dxYksxFTCjh1CcEf5wWJQxyDtbYyNTd5A==",
+      "type": "package",
+      "path": "secureidentity/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0/SecureIdentity.dll",
+        "secureidentity.1.0.2.nupkg.sha512",
+        "secureidentity.nuspec"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.2.3": {
       "sha512": "cnzQDn0Le+hInsw2SYwlOhOCPXpYi/szcvnyqZJ12v+QyrLBwAmWXBg6RIyHB18s/mLeywC+Rg2O9ndz0IUNYQ==",
       "type": "package",
@@ -2151,6 +2172,7 @@
       "Microsoft.EntityFrameworkCore.Abstractions >= 6.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 6.0.1",
       "Pomelo.EntityFrameworkCore.MySql >= 6.0.0",
+      "SecureIdentity >= 1.0.2",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
   },
@@ -2214,6 +2236,10 @@
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
             "version": "[6.0.0, )"
+          },
+          "SecureIdentity": {
+            "target": "Package",
+            "version": "[1.0.2, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",
