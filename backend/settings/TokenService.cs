@@ -16,8 +16,7 @@ namespace backend.settings
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email,
-                              user.Email.ToString()),
+                    new Claim(ClaimTypes.Email,user.email.ToString()),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
