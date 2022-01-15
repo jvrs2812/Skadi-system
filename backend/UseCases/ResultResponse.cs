@@ -26,7 +26,7 @@ namespace backend.UseCases
         {
             Errors.Add(errors);
         }
-        public T Data { get; private set; }
+        public T? Data { get; private set; }
 
         public List<String> Errors { get; private set; } = new();
     }
