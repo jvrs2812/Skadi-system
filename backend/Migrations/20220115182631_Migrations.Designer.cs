@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using backend.db;
 
@@ -10,9 +11,10 @@ using backend.db;
 namespace backend.Migrations
 {
     [DbContext(typeof(SKADIDBContext))]
-    partial class SKADIDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220115182631_Migrations")]
+    partial class Migrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
