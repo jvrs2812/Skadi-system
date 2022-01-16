@@ -7,6 +7,8 @@ using backend.requestmodels;
 using backend.response;
 using backend.settings;
 using backend.UseCases;
+using backend.UseCases.model;
+using backend.UseCases.services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +18,9 @@ namespace backend.Controllers
     public class UserController : ControllerBase
     {
         [HttpPost("api1/register")]
-        public IActionResult PostRegister(
-            [FromBody] UserRequest userModelRequest,
+        public async Task<IActionResult> PostRegister(
+            [FromBody] UserRegisterRequest userModelRequest,
+            [FromServices] EmailSend emailSend,
             [FromServices] SKADIDBContext context)
         {
             try
@@ -27,15 +30,17 @@ namespace backend.Controllers
                     var query = from state in ModelState.Values
                                 from error in state.Errors
                                 select error.ErrorMessage;
-                    return BadRequest(new ResultResponse<UserRequest>(query.ToList()));
+                    return BadRequest(new ResultResponse<UserRegisterRequest>(query.ToList()));
                 }
 
 
                 var userCreate = new UserRepository(context: context, userModelRequest);
 
-                userCreate.ValidateUser();
+                userCreate.CreateUser();
 
-                userCreate.CreateUserFather();
+                var email = new EmailSmtp();
+
+                await email.executeAsync(emailSend, userModelRequest.email, "Email de verificação");
 
                 return Created($"api1/login", "");
             }
@@ -60,7 +65,7 @@ namespace backend.Controllers
                 var query = from state in ModelState.Values
                             from error in state.Errors
                             select error.ErrorMessage;
-                return BadRequest(new ResultResponse<UserRequest>(query.ToList()));
+                return BadRequest(new ResultResponse<UserLoginRequest>(query.ToList()));
             }
             try
             {
@@ -73,6 +78,10 @@ namespace backend.Controllers
             catch (ValidateException err)
             {
                 return BadRequest(new ResultResponse<UserLoginResponse>(err.Message));
+            }
+            catch (EmailConfirmationException err)
+            {
+                return StatusCode(412, new ResultResponse<UserLoginResponse>(err.Message));
             }
             catch
             {
@@ -115,6 +124,16 @@ namespace backend.Controllers
                 return StatusCode(500, new ResultResponse<UserGetResponse>("Erro 50920x989 relatar ao desenvolvedor"));
             }
 
+        }
+
+        [HttpGet("api1/confirm-email/{id}")]
+        public IActionResult ConfirmEmail(
+            [FromRoute] string id
+        )
+        {
+
+
+            return Ok();
         }
 
     }

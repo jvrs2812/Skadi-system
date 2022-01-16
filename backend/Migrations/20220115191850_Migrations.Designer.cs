@@ -11,7 +11,7 @@ using backend.db;
 namespace backend.Migrations
 {
     [DbContext(typeof(SKADIDBContext))]
-    [Migration("20220115182631_Migrations")]
+    [Migration("20220115191850_Migrations")]
     partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,9 @@ namespace backend.Migrations
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<bool>("emailConfirmation")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("name")
                         .IsRequired()

@@ -1,6 +1,8 @@
 using System.Text;
 using backend.db;
 using backend.settings;
+using backend.UseCases.mediatype;
+using backend.UseCases.model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -47,6 +49,10 @@ builder.Services.AddDbContext<SKADIDBContext>(
                 .EnableDetailedErrors()
         );
 
+
+builder.Services.AddSingleton<EmailSend>(new EmailSend(builder));
+builder.Services.AddMvc(options => options.OutputFormatters.Add(new HtmlOutputFormatter()));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -55,7 +61,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace backend.requestmodels
 {
-    public class UserRequest
+    public class UserRegisterRequest
     {
         [Required(ErrorMessage = "O nome é obrigatório")]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "O nome deve ter entre 5 e 100 caracteres")]

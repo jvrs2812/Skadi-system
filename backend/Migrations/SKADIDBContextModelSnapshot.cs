@@ -79,6 +79,9 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("emailConfirmation")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("longtext");

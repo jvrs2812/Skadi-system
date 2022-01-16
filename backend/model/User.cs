@@ -16,6 +16,6 @@ namespace backend.model
         [Required]
         public string password { get; set; }
         public string Role { get; set; }
-        public UserRequest UserModelRequest { get; }
+        public bool emailConfirmation { get; set; }
     }
 }
