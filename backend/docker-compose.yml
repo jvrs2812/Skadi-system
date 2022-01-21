@@ -8,10 +8,17 @@ services:
       MYSQL_DATABASE: "DBSKADI"
     ports:
       - "3306:3306"
-    volumes:
-      - C:/DATABASE
     networks:
       - mysql-compose-network
+  skadi-backend:
+    image: skadi-backend:1.0
+    ports:
+      - "80:80"
+    depends_on:
+      - mysqlsrv
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    command: [ "dotnet", "backend.dll" ]
 
   adminer:
     image: adminer

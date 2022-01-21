@@ -41,12 +41,14 @@ builder.Services.AddAuthentication(x =>
         };
     });
 
+
 builder.Services.AddDbContext<SKADIDBContext>(
             dbContextOptions => dbContextOptions
                 .UseMySql(builder.Configuration["database"], new MySqlServerVersion(new Version(8, 0, 27)))
                 .LogTo(Console.WriteLine, LogLevel.Information)
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors()
+
         );
 
 
@@ -55,6 +57,12 @@ builder.Services.AddMvc(options => options.OutputFormatters.Add(new HtmlOutputFo
 
 var app = builder.Build();
 
+var scope = app.Services.CreateScope();
+var db = scope.ServiceProvider.GetRequiredService<SKADIDBContext>();
+db.Database.Migrate();
+
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -62,7 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseStaticFiles();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
