@@ -57,11 +57,6 @@ builder.Services.AddMvc(options => options.OutputFormatters.Add(new HtmlOutputFo
 
 var app = builder.Build();
 
-var scope = app.Services.CreateScope();
-var db = scope.ServiceProvider.GetRequiredService<SKADIDBContext>();
-db.Database.Migrate();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
