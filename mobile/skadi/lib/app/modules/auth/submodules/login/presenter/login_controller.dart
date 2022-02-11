@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
 import 'package:skadi/app/modules/auth/store/auth_store.dart';
-import 'package:skadi/app/modules/auth/submodules/login/domain/entities/params/login_credentials.dart';
+import 'package:skadi/app/modules/auth/submodules/login/domain/entities/request/login_credentials.dart';
 import 'package:skadi/app/modules/auth/submodules/login/domain/errors/login_failure.dart';
 import 'package:skadi/app/modules/auth/submodules/login/domain/usecases/authenticate_user_with_email.dart';
 import 'package:asuka/asuka.dart' as asuka;
@@ -41,7 +41,8 @@ class LoginController extends StreamStore<ILoginFailure, LoginCredentials> {
         _authStore.setUserLogged(sucess);
         update(state, force: true);
         setLoading(false);
-        await Modular.to.pushNamed('/home');
+        await Modular.to
+            .pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
       },
     );
   }
