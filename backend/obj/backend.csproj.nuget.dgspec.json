@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jvrs_\\Desktop\\Skadi-system\\backend\\backend.csproj": {}
+    "C:\\Users\\jvrs_\\Documents\\Skadi\\Skadi-system\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jvrs_\\Desktop\\Skadi-system\\backend\\backend.csproj": {
+    "C:\\Users\\jvrs_\\Documents\\Skadi\\Skadi-system\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jvrs_\\Desktop\\Skadi-system\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\jvrs_\\Documents\\Skadi\\Skadi-system\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\jvrs_\\Desktop\\Skadi-system\\backend\\backend.csproj",
+        "projectPath": "C:\\Users\\jvrs_\\Documents\\Skadi\\Skadi-system\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\jvrs_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jvrs_\\Desktop\\Skadi-system\\backend\\obj\\",
+        "outputPath": "C:\\Users\\jvrs_\\Documents\\Skadi\\Skadi-system\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jvrs_\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -97,7 +97,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
