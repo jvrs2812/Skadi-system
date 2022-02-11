@@ -9,19 +9,25 @@ namespace backend.UseCases.services
 {
     public class EmailSmtp
     {
-        public async Task<bool> executeAsync(EmailSend emailDados, string toEmail, string subject)
+        private EmailSend _emailsend;
+        private WebClient _cliente;
+        public EmailSmtp(EmailSend emailsend,WebClient client){
+            this._emailsend = emailsend;
+            this._cliente = client;
+        }
+        public async Task<bool> executeAsync(string toEmail, string subject)
         {
             try
             {
                 var emailSend = new MimeMessage();
-                emailSend.From.Add(MailboxAddress.Parse(emailDados.email));
+                emailSend.From.Add(MailboxAddress.Parse(_emailsend.email));
                 emailSend.To.Add(MailboxAddress.Parse(toEmail));
                 emailSend.Subject = subject;
                 emailSend.Body = new TextPart(TextFormat.Html) { Text = getBodyConfirmationEmail(toEmail) };
 
                 using var smtp = new SmtpClient();
-                smtp.Connect(emailDados.servidor, emailDados.port, SecureSocketOptions.StartTls);
-                smtp.Authenticate(emailDados.email, emailDados.password);
+                smtp.Connect(_emailsend.servidor, _emailsend.port, SecureSocketOptions.StartTls);
+                smtp.Authenticate(_emailsend.email, _emailsend.password);
                 smtp.Send(emailSend);
                 smtp.Disconnect(true);
 
@@ -35,11 +41,9 @@ namespace backend.UseCases.services
             }
         }
 
-        private static string getBodyConfirmationEmail(string email)
+        private string getBodyConfirmationEmail(string email)
         {
-            var client = new WebClient();
-
-            string html = client.DownloadString(Directory.GetCurrentDirectory() + "\\template\\email\\confirmation.html");
+            string html = _cliente.DownloadString(Directory.GetCurrentDirectory() + "\\template\\email\\confirmation.html");
 
             html = html.Replace("Confirmation-Email-Link", "https://localhost:7146/ap1/confirmation-email/" + email);
             return html;
