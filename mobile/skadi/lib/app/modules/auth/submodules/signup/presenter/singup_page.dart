@@ -1,28 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
-import 'package:skadi/app/modules/auth/submodules/login/domain/entities/request/login_credentials.dart';
 import 'package:skadi/app/modules/auth/submodules/login/domain/errors/login_failure.dart';
 import 'package:skadi/app/modules/auth/submodules/login/presenter/login_controller.dart';
+import 'package:skadi/app/modules/auth/submodules/signup/domain/entities/request/UserRegister.dart';
+import 'package:skadi/app/modules/auth/submodules/signup/presenter/singup_controller.dart';
 import 'package:skadi/app/shared/components/text_field/text_field_container.dart';
 import 'package:skadi/app/shared/constants/constants.dart';
-import 'login_controller.dart';
 
-class LoginPage extends StatefulWidget {
+class SingUpPage extends StatefulWidget {
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SingUpPage> createState() => _SingUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SingUpPageState extends State<SingUpPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  final LoginController controller = Modular.get();
+  final SingUpController controller = Modular.get();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
+  final TextEditingController cnpjController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
 
   final focusNodeEmail = FocusNode();
   final focusNodePassword = FocusNode();
-
+  final focusNodecnpj = FocusNode();
+  final focusNodename = FocusNode();
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -37,8 +41,8 @@ class _LoginPageState extends State<LoginPage> {
             SingleChildScrollView(
               child: Form(
                 key: formKey,
-                child: ScopedBuilder<LoginController, ILoginFailure,
-                    LoginCredentials>(
+                child: ScopedBuilder<SingUpController, ILoginFailure,
+                    UserRegister>(
                   store: controller,
                   onState: (context, state) {
                     return Column(
@@ -46,9 +50,29 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Image.asset(
                           "assets/images/logo.png",
-                          height: size.height * 0.22,
+                          height: size.height * 0.15,
                         ),
-                        SizedBox(height: size.height * 0.03),
+                        TextFieldContainer(
+                          controller: nameController,
+                          enabled: !controller.isLoading,
+                          keyboardType: TextInputType.name,
+                          autocorrect: false,
+                          icon: Icons.account_box,
+                          onFieldSubmitted: (_) =>
+                              focusNodeEmail.requestFocus(),
+                          validator: (name) {
+                            if (name?.isEmpty ?? true) {
+                              return 'Campo obrigatório';
+                            } else if (name!.length < 6) {
+                              return 'Nome precisa ser maior que 6 caracteres';
+                            }
+                            return null;
+                          },
+                          focusNode: focusNodename,
+                          hintText: "Nome",
+                          onChanged: controller.setName,
+                          onSaved: (name) => controller.setName(name ?? ''),
+                        ),
                         TextFieldContainer(
                           controller: emailController,
                           enabled: !controller.isLoading,
@@ -87,9 +111,32 @@ class _LoginPageState extends State<LoginPage> {
                           },
                           hintText: "Senha",
                           onChanged: controller.setPassword,
+                          onSaved: (senha) =>
+                              controller.setPassword(senha ?? ''),
                         ),
-                        ScopedBuilder<LoginController, ILoginFailure,
-                            LoginCredentials>(
+                        TextFieldContainer(
+                          controller: cnpjController,
+                          enabled: !controller.isLoading,
+                          keyboardType: TextInputType.number,
+                          autocorrect: false,
+                          icon: Icons.business,
+                          onFieldSubmitted: (_) =>
+                              focusNodePassword.requestFocus(),
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return 'Campo obrigatório';
+                            } else if (value!.length < 14) {
+                              return 'CNPJ invalido';
+                            }
+                            return null;
+                          },
+                          focusNode: focusNodecnpj,
+                          hintText: "CNPJ",
+                          onChanged: controller.setCnpj,
+                          onSaved: (value) => controller.setCnpj(value ?? ''),
+                        ),
+                        ScopedBuilder<SingUpController, ILoginFailure,
+                            UserRegister>(
                           store: controller,
                           onLoading: (context) {
                             return const CircularProgressIndicator(
@@ -110,10 +157,10 @@ class _LoginPageState extends State<LoginPage> {
                                       onPressed: () {
                                         focusNodeEmail.unfocus();
                                         focusNodePassword.unfocus();
+                                        focusNodecnpj.unfocus();
+                                        focusNodename.unfocus();
                                         if (formKey.currentState!.validate()) {
-                                          controller.onSingInPress(
-                                              emailController.text,
-                                              senhaController.text);
+                                          controller.onRegisterInPress();
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -124,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                                             kSecondaryColor.withAlpha(100),
                                       ),
                                       child: const Text(
-                                        "Entrar",
+                                        "Registrar",
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ),
@@ -137,10 +184,10 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: size.height * 0.03),
                         InkWell(
                           onTap: () {
-                            Modular.to.pushNamed('/singup');
+                            Modular.to.pushNamed('/login');
                           },
                           child: const Text(
-                            'Inscreva-se',
+                            'Entrar',
                             style: TextStyle(fontSize: 14, color: Colors.white),
                           ),
                         ),
