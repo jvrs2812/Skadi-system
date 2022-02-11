@@ -24,9 +24,6 @@ namespace backend.Migrations
                     b.Property<string>("id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Userid")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("cnpj")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -44,8 +41,6 @@ namespace backend.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("id");
-
-                    b.HasIndex("Userid");
 
                     b.ToTable("Enterprise");
                 });
@@ -76,6 +71,10 @@ namespace backend.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -96,49 +95,8 @@ namespace backend.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("backend.refreshtoken.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("AddedDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("JwtId")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
-                });
-
             modelBuilder.Entity("backend.model.Enterprise", b =>
                 {
-                    b.HasOne("backend.model.User", null)
-                        .WithMany("enterprises")
-                        .HasForeignKey("Userid");
-
                     b.OwnsOne("backend.model.NameEnterprise", "settings", b1 =>
                         {
                             b1.Property<string>("Enterpriseid")
@@ -166,22 +124,6 @@ namespace backend.Migrations
 
                     b.Navigation("settings")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("backend.refreshtoken.RefreshToken", b =>
-                {
-                    b.HasOne("backend.model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.model.User", b =>
-                {
-                    b.Navigation("enterprises");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,9 +12,5 @@ namespace backend.response
         public string? cnpj { get; set; }
 
         public string? token { get; set; }
-
-        public string? RefreshToken { get; set; }
-
-        public DateTime ExpiredToken { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 using backend.model;
-using backend.refreshtoken;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.db
@@ -19,6 +18,5 @@ namespace backend.db
         public DbSet<Enterprise>? Enterprise { get; set; }
 
         public DbSet<EnterpriseUser> EnterpriseUsers { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
     }
 }
